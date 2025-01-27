@@ -1,70 +1,71 @@
-# Import tools needed for web scraping and data handling
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from webdriver_manager.chrome import ChromeDriverManager
-import time
-import json
-import os
+# Import core functionality
+from selenium import webdriver                # Browser automation
+from selenium.webdriver.common.by import By   # HTML element location strategies
+from selenium.webdriver.chrome.service import Service  # Chrome service management
+from selenium.webdriver.chrome.options import Options  # Browser customization
+from selenium.webdriver.support.ui import WebDriverWait  # Smart waiting
+from selenium.webdriver.support import expected_conditions as EC  # Wait conditions
+from webdriver_manager.chrome import ChromeDriverManager  # Automatic driver handling
+import time     # Timing operations
+import json     # JSON data handling
+import os       # File system operations
 
-# Create a dedicated folder to store all product results
-output_folder = "product_details"
+# OUTPUT CONFIGURATION
+output_folder = "product_details"  # Central location for all results
 os.makedirs(output_folder, exist_ok=True)  # Auto-create folder if missing
 
-# Get user's desired product search
-product_query = input("Search product (e.g., shirts, jeans): ").strip().lower()
-# Convert search term to Myntra URL format (spaces -> hyphens)
-search_param = '-'.join(product_query.split())
-base_url = f"https://www.myntra.com/{search_param}"
+# USER CONFIGURATION
 
-# Configure Chrome browser settings
-chrome_options = Options()
-chrome_options.add_argument("--disable-gpu")  # Better for server/remote operation
-chrome_options.add_argument("--no-sandbox")   # Improves stability on some systems
+product_query = input("Search product (e.g., shirts, jeans): ").strip().lower() # Get user search input and format for URL
+search_param = '-'.join(product_query.split())  # Convert "blue shirts" to "blue-shirts"
+base_url = f"https://www.myntra.com/{search_param}"  # Base search URL
 
-# Start automated Chrome browser
+
+# BROWSER CONFIGURATION
+
+chrome_options = Options() # Set up Chrome options for headless/remote operation
+chrome_options.add_argument("--disable-gpu")  # Disable GPU acceleration for stability
+chrome_options.add_argument("--no-sandbox")   # Bypass OS security model for Docker/CI
+
+# Initialize browser instance
 driver = webdriver.Chrome(
-    service=Service(ChromeDriverManager().install()),
-    options=chrome_options
-)
+    service=Service(ChromeDriverManager().install()), options=chrome_options ) # Auto-download driver
 
-products = []  # Master list to store all found products
-total_pages = 7  # Number of product pages to check
+
+# DATA STORAGE
+products = []       # Master list for product objects
+total_pages = 7     # Number of pagination pages to scrape
 
 try:
-    # Process each product results page
-    for page in range(1, total_pages + 1):
-        # Build page URL (Myntra uses ?p= for page numbers)
-        page_url = f"{base_url}?p={page}"
-        driver.get(page_url)  # Load the page
+    
+    # PAGINATION HANDLING
+    for page in range(1, total_pages + 1):    # Build page-specific URL
         
-        print(f"\nProcessing page {page}/{total_pages}...")
-
-        # Scroll down 3 times to load all hidden products
-        # (Myntra loads more items as you scroll)
-        for _ in range(3):
+        page_url = f"{base_url}?p={page}"
+        driver.get(page_url)  # Navigate to target page
+        
+        print(f"\n📃 Processing page {page}/{total_pages}...")
+        
+        
+        # Simulate user scrolling to trigger lazy-loading
+        for _ in range(3):  # Triple scroll to load all items
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            time.sleep(1.5)  # Wait for new items to appear
+            time.sleep(1.5)  # Allow content to load between scrolls
 
-        # Find all product cards on the page
+        # PRODUCT CARD PROCESSING
+        # Wait for product cards to become available
         product_cards = WebDriverWait(driver, 15).until(
             EC.presence_of_all_elements_located((By.CLASS_NAME, "product-base"))
         )
 
-        # Extract details from each product card
+        # Extract data from each product card
         for card in product_cards:
             try:
-                # Get product brand name
+                # Structured data extraction
                 brand = card.find_element(By.CLASS_NAME, "product-brand").text
-                # Get product title/name
                 name = card.find_element(By.CLASS_NAME, "product-product").text
-                # Get link to product page
                 url = card.find_element(By.TAG_NAME, "a").get_attribute("href")
                 
-                # Save product details to master list
                 products.append({
                     "brand": brand,
                     "name": name,
@@ -72,18 +73,19 @@ try:
                 })
                 
             except Exception:
-                continue  # Skip products that can't be read properly
+                continue  # Skip malformed cards
 
-        print(f"Page {page} completed - Total products: {len(products)}")
-
-    # Save all collected data to JSON file
+        print(f"Page {page} completed - Total: {len(products)} products")
+   
+    # DATA EXPORT
     output_file = os.path.join(output_folder, f'myntra_{search_param}.json')
     with open(output_file, 'w', encoding='utf-8') as f:
-        json.dump(products, f, indent=2, ensure_ascii=False)
+        json.dump(products, f, indent=2, ensure_ascii=False)  # Human-readable format
 
-    print(f"\nSaved {len(products)} products to {output_file}")
+    print(f"\n Saved {len(products)} products to {output_file}")
 
 finally:
-    # Always close browser when done (even if errors occur)
-    driver.quit()
-    print("\nBrowser closed")
+    
+    # RESOURCE CLEANUP-
+    driver.quit()  # Ensure browser closure even on errors
+    print("\n Browser session terminated")
