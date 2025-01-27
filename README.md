@@ -33,33 +33,32 @@ A Python-based web scraper that extracts product listings from Myntra.com across
 
 ## Usage 🚀
 
-Run the Scraper:
+1. Run the Scraper:
 
-bash
-Copy
-python myntra_scraper.py
-Enter Product Type:
-
-plaintext
-Copy
+  ```bash
+  python myntra_scraper.py
+```
+2. Enter Product Type:
+```plaintext
 Search product (e.g., shirts, jeans): running shoes
-Monitor Progress:
+```
+3. Monitor Progress:
 
-plaintext
-Copy
+```plaintext
 📃 Processing page 1/7...
 ✔️ Page 1 completed - Total: 50 products
-Find Results:
+```
+
+4. Find Results:
 
 Navigate to /product_details folder
 
 Open myntra_[your-search-term].json
 
-Output Format 📄
+5. Output Format 📄
 Sample JSON Structure:
 
-json
-Copy
+```json
 [
   {
     "brand": "Nike",
@@ -67,3 +66,4 @@ Copy
     "url": "https://www.myntra.com/nike-air-zoom-pegasus-38"
   }
 ]
+```
