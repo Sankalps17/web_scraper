@@ -1,8 +1,6 @@
 # Product Scraper 🤖
 
-A Python-based web scraper that extracts product listings from Myntra.com across multiple pages. Perfect for market research and price tracking.
-
-![Scraper Demo](https://img.icons8.com/color/96/000000/python--v1.png) ![Myntra Logo](https://img.icons8.com/color/96/000000/myntra.png)
+A Python-based web scraper that extracts product listings from Myntra.com across multiple pages.
 
 ## Table of Contents
 - [Features](#features-)
@@ -10,9 +8,6 @@ A Python-based web scraper that extracts product listings from Myntra.com across
 - [Installation](#installation-)
 - [Usage](#usage-)
 - [Output Format](#output-format-)
-- [Customization](#customization-)
-- [Troubleshooting](#troubleshooting-)
-- [Disclaimer](#disclaimer-)
 
 ## Features ✨
 - Multi-page scraping
