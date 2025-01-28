@@ -24,8 +24,8 @@ base_url = f"https://www.myntra.com/{search_param}"  # Base search URL
 # BROWSER CONFIGURATION
 
 chrome_options = Options() # Set up Chrome options for headless/remote operation
-chrome_options.add_argument("--disable-gpu")  # Disable GPU acceleration for stability
-chrome_options.add_argument("--no-sandbox")   # Bypass OS security model for Docker/CI
+#chrome_options.add_argument("--disable-gpu")  # Disable GPU acceleration for stability
+#chrome_options.add_argument("--no-sandbox")   # Bypass OS security model for Docker/CI
 
 # Initialize browser instance
 driver = webdriver.Chrome(
