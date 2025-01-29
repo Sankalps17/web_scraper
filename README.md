@@ -32,13 +32,13 @@ A Python-based web scraper that extracts product listings from Myntra.com across
 
 ## Usage 🚀
 
-1. Run the Scraper: Both the scapers do the same function but product_details_scraper.py(using selenium) and using_bs4.py(using both selenium and bs4).
+1. Run the Scraper: Both scrapers perform the same function, but product_details_scraper.py uses Selenium, while using_bs4.py utilizes both Selenium and bs4.
 
-  ```bash
+```bash
   python product_details_scraper.py
 ```
 ```bash
-   python using_bs4.py
+  python using_bs4.py
 ```
 
 2. Enter Product Type:
