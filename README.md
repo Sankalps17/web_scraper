@@ -26,7 +26,6 @@ A Python-based web scraper that extracts product listings from Myntra.com across
 1. **Clone Repository**:
    ```bash
    git clone https://github.com/Sankalps17/web_scraper
-   cd myntra-scraper
 
 2. **Install Dependencies**
    pip install -r requirements.txt
@@ -36,7 +35,7 @@ A Python-based web scraper that extracts product listings from Myntra.com across
 1. Run the Scraper:
 
   ```bash
-  python myntra_scraper.py
+  python product_details_scraper.py
 ```
 2. Enter Product Type:
 ```plaintext
