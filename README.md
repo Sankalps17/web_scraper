@@ -58,7 +58,7 @@ Navigate to /product_details folder
 
 Open myntra_[your-search-term].json
 
-5. Output Format 📄
+## Output Format 📄
 Sample JSON Structure:
 
 ```json
