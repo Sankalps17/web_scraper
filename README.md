@@ -5,7 +5,7 @@ A Python-based web scraper that extracts product listings from Myntra.com across
 ## Table of Contents
 - [Features](#features-)
 - [Requirements](#requirements-)
-- [Installation](#installation-)
+- [Installation](#Installation-)
 - [Usage](#usage-)
 - [Output Format](#output-format-)
 
